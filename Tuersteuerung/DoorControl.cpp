@@ -20,7 +20,7 @@ DoorControl::~DoorControl()
 	door_if.quit_doorcontrol_flag = true;
 }
 
-void DoorControl::setInput(int* eingang)
+void DoorControl::setInput(int* eingang) // channels -> control.inputSignal 
 {
 
 	door_if.DIO_Read(eingang);
@@ -62,15 +62,13 @@ int main (int argc, char *argv[])
 	control.run();
 	
 	temp = control.getSignal();
-	if (temp&32==32)
+	if (temp&32==32) // F6
 	{
 		control.setOutput(4);
-	}else{
+		cout << 4 << endl;
+	}else{   // not F6
 		control.setOutput(5);
+		cout << 5 << endl;
 	}
-
-
-	
-
 	return 0;
 }
