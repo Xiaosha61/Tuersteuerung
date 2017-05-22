@@ -1,0 +1,26 @@
+!SESSION 2017-05-10 13:55:56.626 -----------------------------------------------
+eclipse.buildId=4.6.0.I20160606-1100
+java.version=1.8.0_101
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86, WS=gtk, NL=de_DE
+Framework arguments:  -product org.eclipse.epp.package.cpp.product
+Command-line arguments:  -os linux -ws gtk -arch x86 -product org.eclipse.epp.package.cpp.product
+
+!ENTRY org.eclipse.cdt.core 1 0 2017-05-10 14:01:27.650
+!MESSAGE Indexed 'Tuersteuerung' (0 sources, 0 headers) in 0,002 sec: 0 declarations; 0 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0 %)
+
+!ENTRY org.eclipse.core.externaltools 4 0 2017-05-10 14:21:44.636
+!MESSAGE The file does not exist for the external tool named run in xterm.
+!SESSION 2017-05-10 18:59:49.900 -----------------------------------------------
+eclipse.buildId=4.6.0.I20160606-1100
+java.version=1.8.0_101
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86, WS=gtk, NL=de_DE
+Framework arguments:  -product org.eclipse.epp.package.cpp.product
+Command-line arguments:  -os linux -ws gtk -arch x86 -product org.eclipse.epp.package.cpp.product
+
+!ENTRY org.eclipse.cdt.core 1 0 2017-05-10 19:02:27.549
+!MESSAGE Indexed 'Tuersteuerung' (3 sources, 299 headers) in 5,71 sec: 24.691 declarations; 36.586 references; 0 unresolved inclusions; 0 syntax errors; 31 unresolved names (0,051 %)
+
+!ENTRY org.eclipse.cdt.core 1 0 2017-05-10 19:04:56.948
+!MESSAGE Indexed 'Tuersteuerung' (3 sources, 299 headers) in 4,74 sec: 24.691 declarations; 36.586 references; 0 unresolved inclusions; 0 syntax errors; 31 unresolved names (0,051 %)

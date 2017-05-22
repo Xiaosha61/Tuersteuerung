@@ -1,0 +1,6 @@
+19:05:18 **** Incremental Build of configuration Debug for project Tuersteuerung ****
+make all 
+make: Für das Ziel »all« ist nichts zu tun.
+
+19:05:18 Build Finished (took 99ms)
+

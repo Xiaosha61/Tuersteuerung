@@ -1,0 +1,93 @@
+14:16:01 **** Build of configuration Debug for project Tuersteuerung ****
+make all 
+Building file: ../Library/niusb6501.c
+Invoking: GCC C Compiler
+gcc -std=gnu99 -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"Library/niusb6501.d" -MT"Library/niusb6501.o" -o "Library/niusb6501.o" "../Library/niusb6501.c"
+Finished building: ../Library/niusb6501.c
+ 
+Building file: ../DoorControl.cpp
+Invoking: GCC C++ Compiler
+g++ -std=c++11 -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"DoorControl.d" -MT"DoorControl.o" -o "DoorControl.o" "../DoorControl.cpp"
+Finished building: ../DoorControl.cpp
+ 
+Building file: ../DoorInterface.cpp
+Invoking: GCC C++ Compiler
+g++ -std=c++11 -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"DoorInterface.d" -MT"DoorInterface.o" -o "DoorInterface.o" "../DoorInterface.cpp"
+Finished building: ../DoorInterface.cpp
+ 
+Building target: Tuersteuerung
+Invoking: GCC C++ Linker
+g++  -o "Tuersteuerung"  ./Library/niusb6501.o  ./DoorControl.o ./DoorInterface.o   -lncurses -lpthread -lrt -lm -lusb
+Finished building target: Tuersteuerung
+ 
+14:21:44 **** Incremental Build of configuration Debug for project Tuersteuerung ****
+make all 
+make: Für das Ziel »all« ist nichts zu tun.
+14:24:35 **** Incremental Build of configuration Debug for project Tuersteuerung ****
+make all 
+make: Für das Ziel »all« ist nichts zu tun.
+14:33:02 **** Incremental Build of configuration Debug for project Tuersteuerung ****
+make all 
+make: Für das Ziel »all« ist nichts zu tun.
+14:33:24 **** Clean-only build of configuration Debug for project Tuersteuerung ****
+make clean 
+rm -rf  ./Library/niusb6501.o  ./DoorControl.o ./DoorInterface.o  ./DoorControl.d ./DoorInterface.d  ./Library/niusb6501.d  Tuersteuerung
+ 
+14:42:12 **** Clean-only build of configuration Debug for project Tuersteuerung ****
+make clean 
+rm -rf  ./Library/niusb6501.o  ./DoorControl.o ./DoorInterface.o  ./DoorControl.d ./DoorInterface.d  ./Library/niusb6501.d  Tuersteuerung
+ 
+14:42:16 **** Build of configuration Debug for project Tuersteuerung ****
+make all 
+Building file: ../Library/niusb6501.c
+Invoking: GCC C Compiler
+gcc -std=gnu99 -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"Library/niusb6501.d" -MT"Library/niusb6501.o" -o "Library/niusb6501.o" "../Library/niusb6501.c"
+Finished building: ../Library/niusb6501.c
+ 
+Building file: ../DoorControl.cpp
+Invoking: GCC C++ Compiler
+g++ -std=c++11 -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"DoorControl.d" -MT"DoorControl.o" -o "DoorControl.o" "../DoorControl.cpp"
+Finished building: ../DoorControl.cpp
+ 
+Building file: ../DoorInterface.cpp
+Invoking: GCC C++ Compiler
+g++ -std=c++11 -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"DoorInterface.d" -MT"DoorInterface.o" -o "DoorInterface.o" "../DoorInterface.cpp"
+Finished building: ../DoorInterface.cpp
+ 
+Building target: Tuersteuerung
+Invoking: GCC C++ Linker
+g++  -o "Tuersteuerung"  ./Library/niusb6501.o  ./DoorControl.o ./DoorInterface.o   -lncurses -lpthread -lrt -lm -lusb
+Finished building target: Tuersteuerung
+ 
+14:42:27 **** Incremental Build of configuration Debug for project Tuersteuerung ****
+make all 
+make: Für das Ziel »all« ist nichts zu tun.
+14:45:09 **** Clean-only build of configuration Debug for project Tuersteuerung ****
+make clean 
+rm -rf  ./Library/niusb6501.o  ./DoorControl.o ./DoorInterface.o  ./DoorControl.d ./DoorInterface.d  ./Library/niusb6501.d  Tuersteuerung
+ 
+19:05:03 **** Build of configuration Debug for project Tuersteuerung ****
+make all 
+Building file: ../Library/niusb6501.c
+Invoking: GCC C Compiler
+gcc -std=gnu99 -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"Library/niusb6501.d" -MT"Library/niusb6501.o" -o "Library/niusb6501.o" "../Library/niusb6501.c"
+Finished building: ../Library/niusb6501.c
+ 
+Building file: ../DoorControl.cpp
+Invoking: GCC C++ Compiler
+g++ -std=c++11 -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"DoorControl.d" -MT"DoorControl.o" -o "DoorControl.o" "../DoorControl.cpp"
+Finished building: ../DoorControl.cpp
+ 
+Building file: ../DoorInterface.cpp
+Invoking: GCC C++ Compiler
+g++ -std=c++11 -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"DoorInterface.d" -MT"DoorInterface.o" -o "DoorInterface.o" "../DoorInterface.cpp"
+Finished building: ../DoorInterface.cpp
+ 
+Building target: Tuersteuerung
+Invoking: GCC C++ Linker
+g++  -o "Tuersteuerung"  ./Library/niusb6501.o  ./DoorControl.o ./DoorInterface.o   -lncurses -lpthread -lrt -lm -lusb
+Finished building target: Tuersteuerung
+ 
+19:05:18 **** Incremental Build of configuration Debug for project Tuersteuerung ****
+make all 
+make: Für das Ziel »all« ist nichts zu tun.
