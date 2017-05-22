@@ -18,9 +18,17 @@ public:
 	DoorControl();
 	~DoorControl();
 	
+	
+	int inputSignal;
+	//int S;
 	void run();
+	void setInput(int *eingang);
+	void setOutput(int ausgang);
+	int getSignal();
 private:
 	DoorInterface door_if;
+	
+	
 };
 
 
