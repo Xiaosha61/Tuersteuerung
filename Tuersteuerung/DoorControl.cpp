@@ -43,6 +43,7 @@ void DoorControl::run()
 	door_if.DebugString("Please wait 10 Seconds for auto exit, or press 'q'.");
 	while( !door_if.quit_doorcontrol_flag && i-- ){
 		door_if.StartTimer(0.2);
+		cout << "what up" << endl;
 	}
 }
 
@@ -61,16 +62,6 @@ int main (int argc, char *argv[])
 	//control.setOutput(2);
 
 	control.run();
-	
-	temp = control.getSignal();
-	if (temp&32==32) // F6
-	{
-		control.setOutput(4);
-		cout << 4 << endl;
-	}else{   // not F6
-		control.setOutput(5);
-		cout << 5 << endl;
-	}
-	cout << 199 << endl;
+
 	return 0;
 }
