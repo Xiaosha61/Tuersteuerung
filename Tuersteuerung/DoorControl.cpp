@@ -71,5 +71,6 @@ int main (int argc, char *argv[])
 		control.setOutput(5);
 		cout << 5 << endl;
 	}
+	cout << 199 << endl;
 	return 0;
 }
