@@ -49,6 +49,7 @@ void DoorControl::run()
 	while(1){
 		door_if.StartTimer(0.2);
 		door_if.DIO_Read(&inputSignal); // channels -> inputSignal
+		cout << inputSignal << endl;
 		if(inputSignal & 32 == 0){
 			door_if.DIO_Write(4);
 		} else {
