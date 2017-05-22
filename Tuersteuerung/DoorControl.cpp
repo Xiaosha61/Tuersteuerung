@@ -9,6 +9,7 @@
 #include "DoorInterface.h"
 #include "DoorControl.h"
 #include <iostream>
+using namespace std;
 
 DoorControl::DoorControl() : door_if(false, true)
 {
