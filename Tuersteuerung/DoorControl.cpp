@@ -50,7 +50,7 @@ void DoorControl::run()
 		door_if.StartTimer(0.2);
 		door_if.DIO_Read(&inputSignal); // channels -> inputSignal
 		cout << inputSignal << endl;
-		if(inputSignal & 32 == 0){
+		if(inputSignal == 65503){
 			door_if.DIO_Write(4);
 		} else {
 			door_if.DIO_Write(5);
