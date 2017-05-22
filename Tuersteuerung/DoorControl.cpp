@@ -49,7 +49,7 @@ void DoorControl::run()
 	while(1){
 		door_if.StartTimer(0.2);
 		door_if.DIO_Read(&inputSignal); // channels -> inputSignal
-		if(inputSignal == 65503){
+		if((inputSignal & 32) == 0){
 			door_if.DIO_Write(4);
 		} else {
 			door_if.DIO_Write(5);
