@@ -15,7 +15,7 @@ enum SIGNALSTATE
 {
 	activate,  //0
 	inactivate //1
-}
+};
 
 DoorControl::DoorControl() : door_if(false, true)
 {
@@ -178,11 +178,6 @@ void DoorControl::OpenDoorAndWait()
 		}
 	}
 	CloseDoorWithCondition();
-}
-
-bool DoorControl::DoorIsClosed()
-{
-	return (X2 == 1) && (X3 == 1) // door is close now
 }
 
 void DoorControl::CloseDoorWithCondition()

@@ -34,18 +34,20 @@ class DoorControl
 	DoorControl();
 	~DoorControl();
 
-	void Read_S1_S2_Signal();
-	void set_S1_S2_Signal();
-	int get_S1_S2_Signal();
+	void Set_All_Input();
+	void set_mode();
+	int get_mode();
 	void ModeSwitch();
+
+	void ProzessAusMode();
+	void ReparaturMode();
 	void AutomatikMode();
+	void HandMode();
+
 	void OpenDoorAndWait();
 	int TuerCloseBeurteilen();
 	void CloseDoorWithCondition();
-	int IfThereIsSth();
-	void HandMode();
-	void ReparaturMode();
-	void ProzessAusMode();
+	int ThereIsSth();
 	void CloseDoor();
 	void OpenDoor();
 	void Fehler();
