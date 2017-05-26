@@ -12,12 +12,28 @@
 #include "ncurses.h"
 #include "DoorInterface.h"
 
+enum MODE
+{
+	PST_AUS,   //0
+	Reparatur, //1
+	Hand,	  //2
+	Automatik  //3
+};
 
-class DoorControl {
-public:
+enum DOORSTATE
+{
+	ZTAuf,		 //0
+	ZTZu,		 //1
+	ZTOeffnen,   //2
+	ZTSchliessen //3
+};
+
+class DoorControl
+{
+  public:
 	DoorControl();
 	~DoorControl();
-	
+
 	void Read_S1_S2_Signal();
 	void set_S1_S2_Signal();
 	int get_S1_S2_Signal();
@@ -34,18 +50,16 @@ public:
 	void OpenDoor();
 	void Fehler();
 	void run();
-	
-private:
+
+  private:
 	DoorInterface door_if;
+	DOORSTATE doorCurrentState;
+	DOORSTATE doorPreviousState;
 
 	int inputSignal = 0;
-	int mode;
-	int S1,S2,E1,E2,X1,X2,X3,LS1,LS2,BE,B;
+	MODE mode;
+	int S1, S2, E1, E2, X1, X2, X3, LS1, LS2, BE, B;
 	//加上friend，来让外部的函数访问inputSignal
-
-
 };
 
-
 #endif // DOORCONTROL_HH
-

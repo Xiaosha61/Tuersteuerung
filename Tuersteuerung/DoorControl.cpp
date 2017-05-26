@@ -9,8 +9,11 @@
 #include "DoorInterface.h"
 #include "DoorControl.h"
 
-
-
+enum SIGNALSTATE
+{
+	activate,  //0
+	inactivate //1
+}
 
 DoorControl::DoorControl() : door_if(false, true)
 {
@@ -22,235 +25,237 @@ DoorControl::~DoorControl()
 	door_if.quit_doorcontrol_flag = true;
 }
 
-
-void DoorControl::Read_S1_S2_Signal()
+void DoorControl::Set_All_Input()
 {
-	door_if.DIO_Read(&inputSignal);
-	if ((inputSignal&1)==0)
+	door_if.DIO_Read(&inputSignal); //channel --> inputSignal
+	if ((inputSignal & 1) == 0)
 	{
-		S1 = 1;
-	}else{
-		S1 = 0;
+		S1 = activate;
 	}
-	if ((inputSignal&2)==0)
+	else
 	{
-		S2 = 1;
-	}else{
-		S2 = 0;
+		S1 = inactivate;
 	}
-	if ((inputSignal&4)==0)
+	if ((inputSignal & 2) == 0)
 	{
-		E1 = 1;
-	}else{
-		E1 = 0;
+		S2 = activate;
 	}
-	if ((inputSignal&8)==0)
+	else
 	{
-		E2 = 1;
-	}else{
-		E2 = 0;
+		S2 = inactivate;
 	}
-	if ((inputSignal&16)==0)
+	if ((inputSignal & 4) == 0)
 	{
-		X1 = 1;
-	}else{
-		X1 = 0;
+		E1 = activate;
 	}
-	if ((inputSignal&32)==0)
+	else
 	{
-		X2 = 1;
-	}else{
-		X2 = 0;
+		E1 = inactivate;
 	}
-	if ((inputSignal&64)==0)
+	if ((inputSignal & 8) == 0)
 	{
-		X3 = 1;
-	}else{
-		X3 = 0;
+		E2 = activate;
 	}
-	if ((inputSignal&128)==0)
+	else
 	{
-		LS1 = 1;
-	}else{
-		LS1 = 0;
+		E2 = inactivate;
 	}
-	if ((inputSignal&256)==0)
+	if ((inputSignal & 16) == 0)
 	{
-		LS2 = 1;
-	}else{
-		LS2 = 0;
+		X1 = activate;
 	}
-	if ((inputSignal&512)==0)
+	else
 	{
-		BE = 1;
-	}else{
-		BE = 0;
+		X1 = inactivate;
 	}
-	if ((inputSignal&1024)==0)
+	if ((inputSignal & 32) == 0)
 	{
-		B = 1;
-	}else{
-		B = 0;
+		X2 = activate;
+	}
+	else
+	{
+		X2 = inactivate;
+	}
+	if ((inputSignal & 64) == 0)
+	{
+		X3 = activate;
+	}
+	else
+	{
+		X3 = inactivate;
+	}
+	if ((inputSignal & 128) == 0)
+	{
+		LS1 = activate;
+	}
+	else
+	{
+		LS1 = inactivate;
+	}
+	if ((inputSignal & 256) == 0)
+	{
+		LS2 = activate;
+	}
+	else
+	{
+		LS2 = inactivate;
+	}
+	if ((inputSignal & 512) == 0)
+	{
+		BE = activate;
+	}
+	else
+	{
+		BE = inactivate;
+	}
+	if ((inputSignal & 1024) == 0)
+	{
+		B = activate;
+	}
+	else
+	{
+		B = inactivate;
 	}
 }
 
-void DoorControl::set_S1_S2_Signal()
+void DoorControl::set_mode() // determine mode according to [s1,s2]
 {
-	//通过逻辑运算实现二进制加法
-	//S1 : Low , S2 : high
-	mode = (S1^S2) + ((S1&S2)<<1);
+	mode = 2 * S1 + S2;
 }
 
-int DoorControl::get_S1_S2_Signal()
+int DoorControl::get_mode()
 {
 	return mode;
 }
 
-
 // 改变自动机的工作模式(Wechsel von verschiedenen Betrieben)
 void DoorControl::ModeSwitch()
 {
-	set_S1_S2_Signal();
+	Set_All_Input(); // channels --> [x1 x2 x3 s1 s2 ls1 ls2 BE B ]
+	set_mode();		 // [s1,s2] -> mode
 
-	switch(mode)
+	switch (mode)
 	{
-		case 3:
-			AutomatikMode();
-			break;
-		case 1:
-			HandMode();
-			break;
-		case 2:
-			ReparaturMode();
-			break;
-		case 0:
-			ProzessAusMode();
-			break;
-		default :
-			Fehler();
-			break;
+	case PST_AUS:
+		ProzessAusMode();
+		break;
+	case Reparatur:
+		ReparaturMode();
+		break;
+	case Hand:
+		HandMode();
+		break;
+	case Automatik:
+		AutomatikMode();
+		break;
+	default:
+		Fehler();
+		break;
 	}
 }
 
-
 void DoorControl::AutomatikMode()
 {
-	while(!TuerCloseBeurteilen())
+	while (mode == Automatik)
 	{
-		CloseDoor();
-	}
-	//下面写让门开的程序
-	while(!IfThereIsSth())
-	{
-		if(IfThereIsSth())
-		{
-			break;
-		}
 
+		Set_All_Input();
+		set_mode();
 	}
-	OpenDoorAndWait();
 }
 
 void DoorControl::OpenDoorAndWait()
 {
 	OpenDoor();
-	if (X1==1)
+	if (X1 == 1)
 	{
 		door_if.DIO_Write(0);
-		for(int i=0;i<25;i++){
+		for (int i = 0; i < 25; i++)
+		{
 			door_if.StartTimer(0.2);
 		}
 	}
 	CloseDoorWithCondition();
 }
 
-int DoorControl::TuerCloseBeurteilen()
+bool DoorControl::DoorIsClosed()
 {
-	if ((X2==1)&&(X3==1))
-	{
-		return 1; // 门是关着的
-	}else{
-		return 0; // 门是开着的
-	}
+	return (X2 == 1) && (X3 == 1) // door is close now
 }
+
 void DoorControl::CloseDoorWithCondition()
 {
-	if(IfThereIsSth())
+	if (IfThereIsSth())
 	{
 		OpenDoorAndWait();
-	}else{
+	}
+	else
+	{
 		CloseDoor();
-		if ((X2==1)||(X3==1))
+		if ((X2 == 1) || (X3 == 1))
 		{
 			door_if.DIO_Write(0);
 		}
 	}
 }
 
-int DoorControl::IfThereIsSth()
+bool DoorControl::ThereIsSth()
 {
-	if(((LS1)||(LS2)||(BE)||(B))==1)
-	{
-		return 1;
-	}else{
-		return 0;
-	}
+	return ((LS1) || (LS2) || (BE) || (B)) == 1);
 }
-
 
 void DoorControl::HandMode()
 {
-
 }
 
 void DoorControl::ReparaturMode()
 {
-
 }
 
 void DoorControl::ProzessAusMode()
 {
-
 }
 
 void DoorControl::Fehler()
 {
-
 }
-
 
 void DoorControl::CloseDoor()
 {
-
-	door_if.DIO_Write(6);
+	door_if.DIO_Write(6); // door is being closed.
 }
 
 void DoorControl::OpenDoor()
 {
-	door_if.DIO_Write(1);
+	door_if.DIO_Write(1); // door is being opened.
 }
-
 
 void DoorControl::run()
 {
 	door_if.DIO_Write(0);
-    while(1){
+	while (1)
+	{
 		//door_if.StartTimer(0.2);
-		 // channels -> inputSignal
-    	//Read_S1_S2_Signal();
-    	//AutomatikMode();
-	if(door_if.quit_doorcontrol_flag){
-		return;
+		// channels -> inputSignal
+		//Read_S1_S2_Signal();
+		//AutomatikMode();
+		Set_All_Input(); // channels --> inputSignal --> X1 X2....
+		if (X1 != 1)
+		{
+			cout << "X1=" << X1 << endl;
+		}
+		ModeSwitch(); // determine mode and switch.
+
+		if (door_if.quit_doorcontrol_flag)
+		{
+			return;
 		}
 	}
 }
 
-
-
-
 /* If "show_ui" of class DoorInterface is active use "External Tools" -> run in xterm"
  * to execute from Eclipse IDE */
-int main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
 
 	// ... insert your class initialisation and loop code here ...
@@ -259,7 +264,5 @@ int main (int argc, char *argv[])
 
 	control.run();
 
-	
 	return 0;
 }
-
