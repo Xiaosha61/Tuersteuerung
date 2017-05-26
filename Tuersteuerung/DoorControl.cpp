@@ -166,41 +166,6 @@ void DoorControl::AutomatikMode()
 	}
 }
 
-void DoorControl::OpenDoorAndWait()
-{
-	OpenDoor();
-	if (X1 == 1)
-	{
-		door_if.DIO_Write(0);
-		for (int i = 0; i < 25; i++)
-		{
-			door_if.StartTimer(0.2);
-		}
-	}
-	CloseDoorWithCondition();
-}
-
-void DoorControl::CloseDoorWithCondition()
-{
-	if (IfThereIsSth())
-	{
-		OpenDoorAndWait();
-	}
-	else
-	{
-		CloseDoor();
-		if ((X2 == 1) || (X3 == 1))
-		{
-			door_if.DIO_Write(0);
-		}
-	}
-}
-
-bool DoorControl::ThereIsSth()
-{
-	return ((LS1) || (LS2) || (BE) || (B)) == 1);
-}
-
 void DoorControl::HandMode()
 {
 }

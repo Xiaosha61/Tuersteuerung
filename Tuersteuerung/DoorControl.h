@@ -44,22 +44,19 @@ class DoorControl
 	void AutomatikMode();
 	void HandMode();
 
-	void OpenDoorAndWait();
-	int TuerCloseBeurteilen();
-	void CloseDoorWithCondition();
-	int ThereIsSth();
-	void CloseDoor();
 	void OpenDoor();
+	void CloseDoor();
+
 	void Fehler();
 	void run();
 
   private:
 	DoorInterface door_if;
-	DOORSTATE doorCurrentState;
-	DOORSTATE doorPreviousState;
+	int doorCurrentState;
+	int doorPreviousState;
 
 	int inputSignal = 0;
-	MODE mode;
+	int mode;
 	int S1, S2, E1, E2, X1, X2, X3, LS1, LS2, BE, B;
 	//加上friend，来让外部的函数访问inputSignal
 };
