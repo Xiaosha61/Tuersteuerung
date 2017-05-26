@@ -193,18 +193,19 @@ void Automatikbetrieb()
 {
 	switch (Zustand)
 	{
-	case ZPSTAUS:								 // frozen
-		if ((X0 == 1) && (X1 == 1) && (X4 == 1)) //
+	case ZPSTAUS: // frozen
+		// X0 = 0 (close); X1=0(open); X4 is safetySwitch(=X0)
+		if ((X0 == 1) && (X1 == 1) && (X4 == 1)) // in the middle
 		{
 			ZustandVorher = Zustand;
 			Zustand = ZToeffnen; // is being opened
 		}
-		if ((X0 == 0) && (X1 == 1) && (X4 == 0))
+		if ((X0 == 0) && (X1 == 1) && (X4 == 0)) // on the side of X0
 		{
 			ZustandVorher = Zustand;
 			Zustand = ZTzu; // is closed
 		}
-		if ((X0 == 1) && (X1 == 0) && (X4 == 1)) // sb &
+		if ((X0 == 1) && (X1 == 0) && (X4 == 1)) // on the side of X1
 		{
 			ZustandVorher = Zustand;
 			Zustand = ZTauf; // is open
@@ -212,7 +213,7 @@ void Automatikbetrieb()
 		break;
 
 	case ZTzu:
-		if ((X2 == 0) || (X3 == 0))
+		if ((X2 == 0) || (X3 == 0)) // objectDetected
 		{
 			ZustandVorher = Zustand;
 			Zustand = ZToeffnen;
@@ -225,12 +226,12 @@ void Automatikbetrieb()
 		break;
 
 	case ZToeffnen:					//is being opened
-		if ((X1 == 0) && (X0 == 1)) // ist schon fertig
+		if ((X1 == 0) && (X0 == 1)) // is already open
 		{
 			ZustandVorher = Zustand;
 			Zustand = ZTauf; // is open
 		}
-		else
+		else // still opening.
 		{
 			OeffneTuer();
 			ZustandVorher = Zustand;
@@ -250,20 +251,20 @@ void Automatikbetrieb()
 		break;
 
 	case ZTschliessen:
-		if ((X2 == 0) || (X3 == 0) || (X5 == 0))
+		if ((X2 == 0) || (X3 == 0) || (X5 == 0)) //object detected
 		{
 			OeffneTuer();
 			ZustandVorher = Zustand;
 			Zustand = ZToeffnen;
 		}
-		else
+		else // nobody
 		{
-			if ((X0 == 0) && (X1 == 1) && (X4 == 0))
+			if ((X0 == 0) && (X1 == 1) && (X4 == 0)) // already closed
 			{
 				ZustandVorher = Zustand;
 				Zustand = ZTzu;
 			}
-			else
+			else // still closing
 			{
 				SchliesseTuer();
 				ZustandVorher = Zustand;

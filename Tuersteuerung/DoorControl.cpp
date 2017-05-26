@@ -135,11 +135,6 @@ void DoorControl::ModeSwitch()
 {
 	Set_All_Input(); // channels --> [x1 x2 x3 s1 s2 ls1 ls2 BE B ]
 	set_mode();		 // [s1,s2] -> mode
-	if (X1 != 1)
-	{
-		cout << "X1=" << X1 << endl;
-		cout << "mode = " << mode << endl;
-	}
 
 	switch (mode)
 	{
@@ -163,27 +158,116 @@ void DoorControl::ModeSwitch()
 
 void DoorControl::AutomatikMode()
 {
-	/*
 	while (mode == Automatik)
+	{
+		Set_All_Input();
+		determineDoorCurrentState(); // determine doorCurrentState according to current X1x2x3
+		switch (doorCurrentState)
+		{
+		case ZTZu:
+			if (objectDetected())
+			{
+				OpenDoor();
+				doorPreviousState = doorCurrentState;
+				doorCurrentState = ZTOeffnen;
+			}
+			break;
+
+		case ZTOeffnen:
+			while (X1 != 0)
+			{
+				OpenDoor();
+			}
+			doorPreviousState = doorCurrentState;
+			doorCurrentState = ZTAuf;
+			break;
+
+		case ZTAuf:
+			for (int i = 0; i < 10; i++) // sleep 2s.
+			{
+				door_if.StartTimer(0.2);
+			}
+			doorPreviousState = doorCurrentState;
+			doorCurrentState = ZTSchliessen;
+			break;
+
+		case ZTSchliessen:
+			while (X2 || X3 == 1) // still not closed.
+			{
+				if ((!LS1) || (!LS2) || (!BE) || (!B) == 1) // object detected.
+				{
+					OpenDoor();
+					doorPreviousState = doorCurrentState;
+					doorCurrentState = ZTOeffnen;
+					break;
+				}
+				CloseDoor();
+			}
+		}
+
+		set_mode();
+		if (door_if.quit_doorcontrol_flag)
+		{
+			break;
+		}
+	}
+}
+
+void DoorControl::determineDoorCurrentState()
+{
+	if (X1 == 0 && X2 == 1 && X3 == 1)
+	{
+		doorCurrentState = ZTAuf;
+	}
+	if (X1 == 1 && X2 == 0 && X3 == 0)
+	{
+		doorCurrentState = ZTZu;
+	}
+	if (X1 == 1 && X2 == 1 && X3 == 1)
+	{
+		if (doorPreviousState == ZTAuf)
+		{
+			doorCurrentState = ZTSchliessen;
+		}
+		else if (doorPreviousState == ZTZu || doorPreviousState == ZTSchliessen)
+		{
+			doorCurrentState = ZTOeffnen;
+		}
+		else
+		{
+			Fehler();
+		}
+	}
+}
+
+void DoorControl::HandMode()
+{
+	while (mode == Hand)
 	{
 
 		Set_All_Input();
 		set_mode();
 	}
-	*/
-	cout << "Im in Auto mode." << endl;
-}
-
-void DoorControl::HandMode()
-{
 }
 
 void DoorControl::ReparaturMode()
 {
+	while (mode == Reparatur)
+	{
+
+		Set_All_Input();
+		set_mode();
+	}
 }
 
 void DoorControl::ProzessAusMode()
 {
+	while (mode == PST_AUS)
+	{
+
+		Set_All_Input();
+		set_mode();
+	}
 }
 
 void DoorControl::Fehler()
@@ -200,9 +284,32 @@ void DoorControl::OpenDoor()
 	door_if.DIO_Write(1); // door is being opened.
 }
 
+void DoorControl::InitializeDoor()
+{
+	Set_All_Input();				   // should have read ffff if it's simulating.
+	if (X1 == 1 && X2 == 1 && X3 == 1) // simulation: it's the start point.
+	{
+		while ((X2 || X3 == 1) || (X1 != 1))
+		{
+			CloseDoor();
+			Set_All_Input();
+		}
+		return;
+	}
+	while (X2 || X3 == 1) // real door: door is not closed.
+	{
+		CloseDoor();
+		Set_All_Input();
+	}
+}
+
 void DoorControl::run()
 {
-	door_if.DIO_Write(0);
+	door_if.DIO_Write(0); //Ruhelagen
+	doorCurrentState = ZTZu;
+	doorPreviousState = ZTZu;
+	InitializeDoor(); // so that the door is really closed.
+
 	while (1)
 	{
 		//door_if.StartTimer(0.2);
@@ -210,13 +317,7 @@ void DoorControl::run()
 		//Read_S1_S2_Signal();
 		//AutomatikMode();
 		Set_All_Input(); // channels --> inputSignal --> X1 X2....
-
-		ModeSwitch(); // determine mode and switch.
-
-		if (door_if.quit_doorcontrol_flag)
-		{
-			return;
-		}
+		ModeSwitch();	// determine mode and switch.
 	}
 }
 

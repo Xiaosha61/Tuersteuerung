@@ -17,7 +17,7 @@ enum MODE
 	PST_AUS,   //0
 	Reparatur, //1
 	Hand,	  //2
-	Automatik  //3
+	Automatik  //3, s1=1&&s2=1
 };
 
 enum DOORSTATE
@@ -46,6 +46,8 @@ class DoorControl
 
 	void OpenDoor();
 	void CloseDoor();
+	void InitializeDoor();
+	void getDoorCurrentState();
 
 	void Fehler();
 	void run();
