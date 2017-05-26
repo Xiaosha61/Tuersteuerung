@@ -8,6 +8,8 @@
 
 #include "DoorInterface.h"
 #include "DoorControl.h"
+#include <iostream>
+using namespace std;
 
 enum SIGNALSTATE
 {
