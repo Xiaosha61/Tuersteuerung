@@ -135,6 +135,11 @@ void DoorControl::ModeSwitch()
 {
 	Set_All_Input(); // channels --> [x1 x2 x3 s1 s2 ls1 ls2 BE B ]
 	set_mode();		 // [s1,s2] -> mode
+	if (X1 != 1)
+	{
+		cout << "X1=" << X1 << endl;
+		cout << "mode = " << mode << endl;
+	}
 
 	switch (mode)
 	{
@@ -158,12 +163,15 @@ void DoorControl::ModeSwitch()
 
 void DoorControl::AutomatikMode()
 {
+	/*
 	while (mode == Automatik)
 	{
 
 		Set_All_Input();
 		set_mode();
 	}
+	*/
+	cout << "Im in Auto mode." << endl;
 }
 
 void DoorControl::HandMode()
@@ -202,10 +210,7 @@ void DoorControl::run()
 		//Read_S1_S2_Signal();
 		//AutomatikMode();
 		Set_All_Input(); // channels --> inputSignal --> X1 X2....
-		if (X1 != 1)
-		{
-			cout << "X1=" << X1 << endl;
-		}
+
 		ModeSwitch(); // determine mode and switch.
 
 		if (door_if.quit_doorcontrol_flag)
