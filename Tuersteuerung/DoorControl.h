@@ -44,6 +44,8 @@ class DoorControl
 	void AutomatikMode();
 	void HandMode();
 
+	void determineDoorCurrentState();
+
 	void OpenDoor();
 	void CloseDoor();
 	void InitializeDoor();

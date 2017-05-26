@@ -165,7 +165,7 @@ void DoorControl::AutomatikMode()
 		switch (doorCurrentState)
 		{
 		case ZTZu:
-			if (objectDetected())
+			if ((!LS1) || (!LS2) || (!BE) || (!B) == 1) //object detected.
 			{
 				OpenDoor();
 				doorPreviousState = doorCurrentState;
