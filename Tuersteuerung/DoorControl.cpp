@@ -176,7 +176,7 @@ void DoorControl::AutomatikMode()
 			break;
 
 		case ZTAuf:
-			for (int i = 0; i < 10; i++) // sleep 2s.
+			for (int i = 0; i < 100; i++) // sleep 2s.
 			{
 				door_if.StartTimer(0.2);
 			}
