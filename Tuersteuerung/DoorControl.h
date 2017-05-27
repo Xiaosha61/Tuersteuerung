@@ -47,7 +47,9 @@ class DoorControl
 	void determineDoorCurrentState();
 
 	void OpenDoor();
+	void OpenDoorCarefully();
 	void CloseDoor();
+	void CloseDoorCarefully();
 	void InitializeDoor();
 	void getDoorCurrentState();
 

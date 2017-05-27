@@ -189,6 +189,7 @@ void DoorControl::AutomatikMode()
 			}
 			doorPreviousState = doorCurrentState;
 			doorCurrentState = ZTSchliessen;
+			CloseDoorCarefully();
 			break;
 
 		case ZTSchliessen:
@@ -274,14 +275,47 @@ void DoorControl::Fehler()
 {
 }
 
+void DoorControl::CloseDoorCarefully()
+{
+	while (1)
+	{
+		if ((!LS1) || (!LS2) || (!BE) || (!B) == 1) //object detected.
+		{
+			OpenDoor();
+			doorPreviousState = ZTSchliessen;
+			doorCurrentState = ZTOeffnen;
+			break;
+		}
+		if (X1 == 1 && X2 == 0 && X3 == 0) // door is completely closed.
+		{
+			door_if.DIO_Write(0); // stop the LED and Motor
+			break;
+		}
+		CloseDoor();
+	}
+}
+
 void DoorControl::CloseDoor()
 {
-	door_if.DIO_Write(6); // door is being closed.
+	door_if.DIO_Write(6); // keep LED and motor on.
+}
+
+void DoorControl::OpenDoorCarefully()
+{
+	while (1)
+	{
+		if (X1 == 0 && X2 == 1 && X3 == 1) // door is completely opened
+		{
+			door_if.DIO_Write(0); // stop Motor
+			break;
+		}
+		OpenDoor();
+	}
 }
 
 void DoorControl::OpenDoor()
 {
-	door_if.DIO_Write(1); // door is being opened.
+	door_if.DIO_Write(1); // keep motor on
 }
 
 void DoorControl::InitializeDoor()
