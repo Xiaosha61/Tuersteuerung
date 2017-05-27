@@ -310,7 +310,9 @@ void DoorControl::run()
 	doorPreviousState = ZTZu;
 	InitializeDoor(); // so that the door is really closed.
 
-	while (1)
+	int i = 50;
+
+	while (!door_if.quit_doorcontrol_flag && i--)
 	{
 		//door_if.StartTimer(0.2);
 		// channels -> inputSignal
