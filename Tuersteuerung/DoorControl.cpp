@@ -286,17 +286,11 @@ void DoorControl::OpenDoor()
 
 void DoorControl::InitializeDoor()
 {
-	Set_All_Input();				   // should have read ffff if it's simulating.
-	if (X1 == 1 && X2 == 1 && X3 == 1) // simulation: it's the start point.
-	{
-		while ((X2 || X3 == 1) || (X1 != 1))
-		{
-			CloseDoor();
-			Set_All_Input();
-		}
-		return;
-	}
-	while (X2 || X3 == 1) // real door: door is not closed.
+	Set_All_Input(); // should have read ffff if it's simulating.
+
+	while ((X2 || X3 == 1) || (X1 != 1))
+	// only when X1X2X3 = 100(door is completely closed), end the loop.
+	//otherwise, it's not a good start point.
 	{
 		CloseDoor();
 		Set_All_Input();
@@ -310,17 +304,8 @@ void DoorControl::run()
 	doorPreviousState = ZTZu;
 	InitializeDoor(); // so that the door is really closed.
 
-	int i = 50;
-
-	while (!door_if.quit_doorcontrol_flag && i--)
-	{
-		//door_if.StartTimer(0.2);
-		// channels -> inputSignal
-		//Read_S1_S2_Signal();
-		//AutomatikMode();
-		Set_All_Input(); // channels --> inputSignal --> X1 X2....
-		ModeSwitch();	// determine mode and switch.
-	}
+	Set_All_Input(); // channels --> inputSignal --> X1 X2....
+	ModeSwitch();	// determine mode and switch.
 }
 
 /* If "show_ui" of class DoorInterface is active use "External Tools" -> run in xterm"
