@@ -329,6 +329,7 @@ void DoorControl::InitializeDoor()
 		CloseDoor();
 		Set_All_Input();
 	}
+	door_if.DIO_Write(0);
 }
 
 void DoorControl::run()
