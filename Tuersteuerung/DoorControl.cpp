@@ -176,9 +176,9 @@ void DoorControl::AutomatikMode()
 			break;
 
 		case ZTAuf:
-			for (int i = 0; i < 100; i++) // sleep 2s.
+			for (int i = 0; i < 100; i++) // sleep 10s.
 			{
-				door_if.StartTimer(0.2);
+				door_if.StartTimer(0.1);
 			}
 			doorPreviousState = doorCurrentState;
 			doorCurrentState = ZTSchliessen;
@@ -195,7 +195,7 @@ void DoorControl::AutomatikMode()
 					OpenDoorCarefully();
 					break;
 				}
-				CloseDoor();
+				CloseDoorCarefully();
 			}
 		}
 
@@ -275,7 +275,7 @@ void DoorControl::CloseDoorCarefully()
 		Set_All_Input();
 		if ((!LS1) || (!LS2) || (!BE) || (!B) == 1) //object detected.
 		{
-			OpenDoor();
+			OpenDoorCarefully();
 			doorPreviousState = ZTSchliessen;
 			doorCurrentState = ZTOeffnen;
 			break;
