@@ -168,8 +168,6 @@ void DoorControl::AutomatikMode()
 			if ((!LS1) || (!LS2) || (!BE) || (!B) == 1) //object detected.
 			{
 				OpenDoorCarefully();
-				doorPreviousState = doorCurrentState;
-				doorCurrentState = ZTOeffnen;
 			}
 			break;
 
@@ -274,6 +272,7 @@ void DoorControl::CloseDoorCarefully()
 {
 	while (1)
 	{
+		Set_All_Input();
 		if ((!LS1) || (!LS2) || (!BE) || (!B) == 1) //object detected.
 		{
 			OpenDoor();
@@ -299,6 +298,7 @@ void DoorControl::OpenDoorCarefully()
 {
 	while (1)
 	{
+		Set_All_Input();
 		if (X1 == 0 && X2 == 1 && X3 == 1) // door is completely opened
 		{
 			door_if.DIO_Write(0); // stop Motor
